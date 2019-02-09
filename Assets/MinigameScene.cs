@@ -58,6 +58,13 @@ public class MinigameScene : MonoBehaviour {
 	private List<int> Game5SeikaiList = new List<int>(){
 		10, 4, 3, 2, 9
 	};
+	
+	// game6
+	[SerializeField] GameObject[] Game6MondaiObjects;
+	[SerializeField] Text Game6WinText;
+	private List<int> Game6SeikaiList = new List<int>(){
+		0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1
+	};
 
 	void Start() {
 		Initialize();
@@ -217,6 +224,20 @@ public class MinigameScene : MonoBehaviour {
 		}
 	}
 	
+	public void OnClickGame6Button(int index) {
+		if (MondaiCounter > 14) {
+			return;
+		}
+		int seikai = Game6SeikaiList[MondaiCounter];
+		Game6MondaiObjects[MondaiCounter].SetActive(false);
+		if (seikai == index) {
+			WinNumber++;
+		}
+		
+		MondaiCounter++;
+		Game6WinText.text = WinNumber + "/15";
+	}
+	
 	private void InitGame1() {
 		NowNumber = 1;
 		for (int i = 0; i < PanelButtonObjects.Length; i++) {
@@ -283,8 +304,15 @@ public class MinigameScene : MonoBehaviour {
 		MondaiCounter = 0;
 	}
 	private void InitGame6() {
-	
+		for (int i = 0; i < Game6MondaiObjects.Length; i++) {
+			Game6MondaiObjects[i].SetActive(true);
+		}
+
+		MondaiCounter = 0;
+		WinNumber= 0;
+		Game6WinText.text = "0/15";
 	}
+
 	private void InitGame7() {
 	
 	}
