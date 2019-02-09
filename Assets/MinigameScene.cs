@@ -31,6 +31,14 @@ public class MinigameScene : MonoBehaviour {
 	private int MondaiCounter = 0;
 	private int WinNumber = 0;
 
+	// game3
+	[SerializeField] GameObject[] LowNumberButtonObjects;
+	[SerializeField] Text[] LowNumberButtonTexts;
+	[SerializeField] Text LowWinText;
+	private List<List<int>> MondaiList = new List<List<int>>();
+	private List<List<int>> SeikaiList = new List<List<int>>();
+	private int ButtonCounter = 0;
+	private int LowNumber = 0;
 
 	void Start() {
 		Initialize();
@@ -107,7 +115,50 @@ public class MinigameScene : MonoBehaviour {
 		MondaiCounter++;
 		MondaiText.text = MondaiTexts[MondaiCounter];
 	}
+	
+	public void OnClickLowButton(int index) {
+		if (MondaiCounter >= 5) {
+			return;
+		}
 
+		int seikai = SeikaiList[MondaiCounter][ButtonCounter];
+
+		if (index == seikai) {
+			ButtonCounter++;
+			LowNumberButtonObjects[index].SetActive(false);
+		} else {
+			MondaiCounter++;
+			ButtonCounter = 0;
+			if (MondaiCounter < 5) {
+				InitGame3Mondai();
+			} else {
+				for (int i = 0; i < LowNumberButtonObjects.Length; i++) {
+					LowNumberButtonObjects[i].SetActive(false);
+				}
+			}
+		}
+
+		if (ButtonCounter == 5) {
+			WinNumber++;
+			MondaiCounter++;
+			ButtonCounter = 0;
+			if (MondaiCounter < 5) {
+				InitGame3Mondai();
+			}
+		}
+		LowWinText.text = WinNumber + "/5";
+	}
+
+	private void InitGame3Mondai() {
+		for (int i = 0; i < LowNumberButtonObjects.Length; i++) {
+			LowNumberButtonObjects[i].SetActive(true);
+		}
+
+		for (int i = 0; i < MondaiList[MondaiCounter].Count; i++) {
+			LowNumberButtonTexts[i].text = MondaiList[MondaiCounter][i].ToString();
+		}
+	}
+	
 	private void InitGame1() {
 		NowNumber = 1;
 		for (int i = 0; i < PanelButtonObjects.Length; i++) {
@@ -123,8 +174,32 @@ public class MinigameScene : MonoBehaviour {
 		WinText.text = "0/5";
 		MondaiCounter = 0;
 	}
+
 	private void InitGame3() {
+		for (int i = 0; i < LowNumberButtonObjects.Length; i++) {
+			LowNumberButtonObjects[i].SetActive(true);
+		}
+		
+		SeikaiList.Add(new List<int>(){0,1,2,4,3});
+		SeikaiList.Add(new List<int>(){3,4,1,2,0});
+		SeikaiList.Add(new List<int>(){1,0,2,3,4});
+		SeikaiList.Add(new List<int>(){4,1,0,2,3});
+		SeikaiList.Add(new List<int>(){0,1,2,3,4});
+
+		MondaiList.Add(new List<int>(){0,5,8,13,10});
+		MondaiList.Add(new List<int>(){31,13,30,3,10});
+		MondaiList.Add(new List<int>(){-5,-10,0,2,10});
+		MondaiList.Add(new List<int>(){18,9,25,99,5});
+		MondaiList.Add(new List<int>(){-30,-28,-9,0,2});
 	
+		MondaiCounter = 0;
+		WinNumber = 0;
+		ButtonCounter = 0;
+
+		for (int i = 0; i < MondaiList[MondaiCounter].Count; i++) {
+			LowNumberButtonTexts[i].text = MondaiList[MondaiCounter][i].ToString();
+		}
+		LowWinText.text = "0/5";
 	}
 	private void InitGame4() {
 	
