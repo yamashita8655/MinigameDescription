@@ -77,6 +77,22 @@ public class MinigameScene : MonoBehaviour {
 	private List<int> Game7SeikaiList = new List<int>(){
 		0, 4, 5, 9, 11, 13, 15
 	};
+	
+	// game8
+	[SerializeField] Text[] Game8KotaeTexts;
+	[SerializeField] Text Game8MondaiText;
+	[SerializeField] Text Game8SeikaiText;
+	private List<int> Game8SeikaiList = new List<int>(){
+		0, 2, 2, 0, 1
+	};
+	private List<string> Game8MondaiList = new List<string>(){
+		"３ー１＝？",
+		"３×３＝？",
+		"９÷３＝？",
+		"１５＋？＝２７",
+		"？×？＝１６",
+	};
+	private List<List<string>> Game8KotaeList = new List<List<string>>();
 
 	void Start() {
 		Initialize();
@@ -303,6 +319,29 @@ public class MinigameScene : MonoBehaviour {
 		return find;
 	}
 	
+	public void OnClickGame8Button(int index) {
+		if (MondaiCounter > 4) {
+			return;
+		}
+		int seikai = Game8SeikaiList[MondaiCounter];
+		if (index == seikai) {
+			WinNumber++;
+		}
+
+		MondaiCounter++;
+
+		Game8SeikaiText.text = WinNumber + "/5";
+
+		if (MondaiCounter > 4) {
+			return;
+		}
+
+		Game8MondaiText.text = Game8MondaiList[MondaiCounter];
+		Game8KotaeTexts[0].text = Game8KotaeList[MondaiCounter][0];
+		Game8KotaeTexts[1].text = Game8KotaeList[MondaiCounter][1];
+		Game8KotaeTexts[2].text = Game8KotaeList[MondaiCounter][2];
+	}
+	
 	private void InitGame1() {
 		NowNumber = 1;
 		for (int i = 0; i < PanelButtonObjects.Length; i++) {
@@ -394,6 +433,42 @@ public class MinigameScene : MonoBehaviour {
 		Game7ClickFilter.SetActive(true);
 	}
 	private void InitGame8() {
-	
+
+		Game8KotaeList.Clear();
+		Game8KotaeList.Add(new List<string>(){
+			"２",
+			"１",
+			"４"
+		});
+		Game8KotaeList.Add(new List<string>(){
+			"１",
+			"６",
+			"９"
+		});
+		Game8KotaeList.Add(new List<string>(){
+			"２７",
+			"１２",
+			"３"
+		});
+		Game8KotaeList.Add(new List<string>(){
+			"１２",
+			"１３",
+			"１４"
+		});
+		Game8KotaeList.Add(new List<string>(){
+			"８",
+			"４",
+			"１６"
+		});
+
+		WinNumber = 0;
+		MondaiCounter = 0;
+		Game8MondaiText.text = Game8MondaiList[MondaiCounter];
+
+		Game8SeikaiText.text = "0/5";
+
+		Game8KotaeTexts[0].text = Game8KotaeList[MondaiCounter][0];
+		Game8KotaeTexts[1].text = Game8KotaeList[MondaiCounter][1];
+		Game8KotaeTexts[2].text = Game8KotaeList[MondaiCounter][2];
 	}
 }
