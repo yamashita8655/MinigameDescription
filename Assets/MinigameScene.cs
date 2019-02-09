@@ -65,6 +65,18 @@ public class MinigameScene : MonoBehaviour {
 	private List<int> Game6SeikaiList = new List<int>(){
 		0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1
 	};
+	
+	// game7
+	[SerializeField] GameObject[] Game7MondaiObjects;
+	[SerializeField] GameObject Game7ClickFilter;
+	[SerializeField] GameObject Game7Setumei;
+	[SerializeField] GameObject Game7Setumei2;
+	[SerializeField] GameObject Game7StartButton;
+	[SerializeField] GameObject Game7EndButton;
+	[SerializeField] Text Game7Setumei2Text;
+	private List<int> Game7SeikaiList = new List<int>(){
+		0, 4, 5, 9, 11, 13, 15
+	};
 
 	void Start() {
 		Initialize();
@@ -238,6 +250,59 @@ public class MinigameScene : MonoBehaviour {
 		Game6WinText.text = WinNumber + "/15";
 	}
 	
+	public void OnClickGame7StartButton() {
+		for (int i = 0; i < Game7MondaiObjects.Length; i++) {
+			Game7MondaiObjects[i].GetComponent<Toggle>().isOn = true;
+		}
+
+		Game7Setumei.SetActive(false);
+		Game7Setumei2.SetActive(true);
+
+		Game7StartButton.SetActive(false);
+		Game7EndButton.SetActive(true);
+		Game7ClickFilter.SetActive(false);
+				
+		Game7Setumei2Text.text = "光っていたところを押して";
+	}
+	
+	public void OnClickGame7EndButton() {
+		int findCounter = 0;
+		int counter = 0;
+		for (int i = 0; i < Game7MondaiObjects.Length; i++) {
+			if (Game7MondaiObjects[i].GetComponent<Toggle>().isOn == false) {
+				counter++;
+				bool find = FindGame7Index(i);
+				if (find) {
+					findCounter++;
+				}
+			}
+		}
+
+		if (findCounter == Game7SeikaiList.Count) {
+			if (counter == findCounter) {
+				Game7Setumei2Text.text = "正解！";
+			} else {
+				Game7Setumei2Text.text = "失敗！";
+			}
+		} else {
+			Game7Setumei2Text.text = "失敗！";
+		}
+		
+		Game7EndButton.SetActive(false);
+		Game7ClickFilter.SetActive(true);
+	}
+
+	private bool FindGame7Index(int index) {
+		bool find = false;
+		for (int i = 0; i < Game7SeikaiList.Count; i++) {
+			if (Game7SeikaiList[i] == index) {
+				find = true;
+				break;
+			}
+		}
+		return find;
+	}
+	
 	private void InitGame1() {
 		NowNumber = 1;
 		for (int i = 0; i < PanelButtonObjects.Length; i++) {
@@ -314,7 +379,19 @@ public class MinigameScene : MonoBehaviour {
 	}
 
 	private void InitGame7() {
-	
+		for (int i = 0; i < Game7MondaiObjects.Length; i++) {
+			Game7MondaiObjects[i].GetComponent<Toggle>().isOn = true;
+		}
+
+		for (int i = 0; i < Game7SeikaiList.Count; i++) {
+			Game7MondaiObjects[Game7SeikaiList[i]].GetComponent<Toggle>().isOn = false;
+		}
+
+		Game7Setumei.SetActive(true);
+		Game7Setumei2.SetActive(false);
+		Game7StartButton.SetActive(true);
+		Game7EndButton.SetActive(false);
+		Game7ClickFilter.SetActive(true);
 	}
 	private void InitGame8() {
 	
