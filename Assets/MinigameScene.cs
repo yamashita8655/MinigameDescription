@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,15 @@ public class MinigameScene : MonoBehaviour {
 	[SerializeField] GameObject GameSelectRoot;
 	[SerializeField] GameObject[] GameRoots;
 	[SerializeField] GameObject BackButton;
+	
+	// game1
+	[SerializeField] GameObject[] PanelButtonObjects;
+	[SerializeField] Text[] PanelButtonTexts;
+	private List<int> TouchIndex = new List<int>() {
+		5,2,4,3,1,7,8,6,9,10,14,12,15,13,11,20,19,18,16,17,23,25,21,24,22
+	};
+
+	private int NowNumber = 1;
 
 	void Start() {
 		Initialize();
@@ -22,11 +32,26 @@ public class MinigameScene : MonoBehaviour {
 	
 	public void OnClickGameButton(int index) {
 		for (int i = 0; i < GameRoots.Length; i++) {
-			if (i == index) {
-				GameRoots[i].SetActive(true);
-			} else {
-				GameRoots[i].SetActive(false);
-			}
+			GameRoots[i].SetActive(false);
+		}
+
+		GameRoots[index].SetActive(true);
+		if (index == 0) {
+			InitGame1();
+		} else if (index == 1) {
+			InitGame2();
+		} else if (index == 2) {
+			InitGame3();
+		} else if (index == 3) {
+			InitGame4();
+		} else if (index == 4) {
+			InitGame5();
+		} else if (index == 5) {
+			InitGame6();
+		} else if (index == 6) {
+			InitGame7();
+		} else if (index == 7) {
+			InitGame8();
 		}
 		
 		SetGameSelectRootActive(false);
@@ -43,5 +68,42 @@ public class MinigameScene : MonoBehaviour {
 			GameRoots[i].SetActive(false);
 		}
 		SetGameSelectRootActive(true);
+	}
+	
+	public void OnClick25PanelButton(int index) {
+		int num = TouchIndex[index];
+		if (num == NowNumber) {
+			PanelButtonObjects[index].SetActive(false);
+			NowNumber++;
+		}
+	}
+
+	private void InitGame1() {
+		NowNumber = 1;
+		for (int i = 0; i < PanelButtonObjects.Length; i++) {
+			PanelButtonObjects[i].SetActive(true);
+			PanelButtonTexts[i].text = TouchIndex[i].ToString();
+		}
+	}
+	private void InitGame2() {
+	
+	}
+	private void InitGame3() {
+	
+	}
+	private void InitGame4() {
+	
+	}
+	private void InitGame5() {
+	
+	}
+	private void InitGame6() {
+	
+	}
+	private void InitGame7() {
+	
+	}
+	private void InitGame8() {
+	
 	}
 }
