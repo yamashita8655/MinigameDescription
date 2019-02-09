@@ -39,6 +39,19 @@ public class MinigameScene : MonoBehaviour {
 	private List<List<int>> SeikaiList = new List<List<int>>();
 	private int ButtonCounter = 0;
 	private int LowNumber = 0;
+	
+	// game4
+	[SerializeField] GameObject[] Game4OdaiObjects;
+	[SerializeField] GameObject OkButton;
+	[SerializeField] GameObject YesButton;
+	[SerializeField] GameObject NoButton;
+	[SerializeField] Text Game4WinText;
+	
+	[SerializeField] GameObject ReidaiObject;
+	[SerializeField] GameObject OdaiObject;
+	private List<int> Game4SeikaiList = new List<int>(){
+		0,0,0,1,0,1,1,0,1,0,0,1,1,1,0
+	};
 
 	void Start() {
 		Initialize();
@@ -159,6 +172,34 @@ public class MinigameScene : MonoBehaviour {
 		}
 	}
 	
+	public void OnClickGame4StartButton() {
+		Game4OdaiObjects[MondaiCounter].SetActive(false);
+		MondaiCounter++;
+
+		OkButton.SetActive(false);
+		YesButton.SetActive(true);
+		NoButton.SetActive(true);
+		
+		ReidaiObject.SetActive(false);
+		OdaiObject.SetActive(true);
+	}
+	
+	public void OnClickGame4Button(int index) {
+		if (MondaiCounter > 14) {
+			return;
+		}
+
+		int seikai = Game4SeikaiList[MondaiCounter];
+
+		if (index == seikai) {
+			WinNumber++;
+		}
+		
+		Game4WinText.text = WinNumber + "/14";
+		Game4OdaiObjects[MondaiCounter].SetActive(false);
+		MondaiCounter++;
+	}
+	
 	private void InitGame1() {
 		NowNumber = 1;
 		for (int i = 0; i < PanelButtonObjects.Length; i++) {
@@ -201,8 +242,21 @@ public class MinigameScene : MonoBehaviour {
 		}
 		LowWinText.text = "0/5";
 	}
+
 	private void InitGame4() {
-	
+		for (int i = 0; i < Game4OdaiObjects.Length; i++) {
+			Game4OdaiObjects[i].SetActive(true);
+		}
+		OkButton.SetActive(true);
+		YesButton.SetActive(false);
+		NoButton.SetActive(false);
+		Game4WinText.text = "0/14";
+
+		ReidaiObject.SetActive(true);
+		OdaiObject.SetActive(false);
+
+		MondaiCounter = 0;
+		WinNumber = 0;
 	}
 	private void InitGame5() {
 	
