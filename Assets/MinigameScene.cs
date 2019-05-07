@@ -7,8 +7,15 @@ using UnityEngine.UI;
 public class MinigameScene : MonoBehaviour {
 	[SerializeField] GameObject GameSelectRoot;
 	[SerializeField] GameObject[] GameRoots;
-	[SerializeField] GameObject BackButton;
+
+	[SerializeField] Button Game1Button;
+	[SerializeField] GameObject Game1Text1;
+	[SerializeField] GameObject Game1Text2;
 	
+	[SerializeField] Button Game2Button;
+	[SerializeField] GameObject Game2Text1;
+	[SerializeField] GameObject Game2Text2;
+
 	// game1
 	[SerializeField] GameObject[] PanelButtonObjects;
 	[SerializeField] Text[] PanelButtonTexts;
@@ -99,11 +106,15 @@ public class MinigameScene : MonoBehaviour {
 	}
 
 	private void Initialize() {
-		BackButton.SetActive(false);
 		SetGameSelectRootActive(true);
 		for (int i = 0; i < GameRoots.Length; i++) {
 			GameRoots[i].SetActive(false);
 		}
+
+		Game1Text1.SetActive(true);
+		Game1Text2.SetActive(false);
+		Game2Text1.SetActive(true);
+		Game2Text2.SetActive(false);
 	}
 	
 	public void OnClickGameButton(int index) {
@@ -131,7 +142,6 @@ public class MinigameScene : MonoBehaviour {
 		}
 		
 		SetGameSelectRootActive(false);
-		BackButton.SetActive(true);
 	}
 
 	private void SetGameSelectRootActive(bool active) {
@@ -139,7 +149,6 @@ public class MinigameScene : MonoBehaviour {
 	}
 	
 	public void OnClickBackButton() {
-		BackButton.SetActive(false);
 		for (int i = 0; i < GameRoots.Length; i++) {
 			GameRoots[i].SetActive(false);
 		}
@@ -151,6 +160,14 @@ public class MinigameScene : MonoBehaviour {
 		if (num == NowNumber) {
 			PanelButtonObjects[index].SetActive(false);
 			NowNumber++;
+		}
+
+		if (NowNumber > 25) {
+			Application.OpenURL("https://natural-nail-eye.sakura.ne.jp/hamburger/index.html");
+			OnClickBackButton();
+			Game1Button.interactable = false;
+			Game1Text1.SetActive(false);
+			Game1Text2.SetActive(true);
 		}
 	}
 	
@@ -189,7 +206,10 @@ public class MinigameScene : MonoBehaviour {
 				for (int i = 0; i < LowNumberButtonObjects.Length; i++) {
 					LowNumberButtonObjects[i].SetActive(false);
 				}
+
+				OnClickBackButton();
 			}
+
 		}
 
 		if (ButtonCounter == 5) {
@@ -198,9 +218,18 @@ public class MinigameScene : MonoBehaviour {
 			ButtonCounter = 0;
 			if (MondaiCounter < 5) {
 				InitGame3Mondai();
+			} else {
+				OnClickBackButton();
+				if (WinNumber == 5) {
+					Application.OpenURL("https://natural-nail-eye.sakura.ne.jp/hamburger/indexpoteto.html");
+					Game2Button.interactable = false;
+					Game2Text1.SetActive(false);
+					Game2Text2.SetActive(true);
+				}
 			}
 		}
 		LowWinText.text = WinNumber + "/5";
+
 	}
 
 	private void InitGame3Mondai() {
